@@ -1,7 +1,6 @@
 from typing import Dict, List
 from graph import Graph
 from debate_strategy import DebateFormatStrategy
-import random
 
 
 class TraditionalDebateFormat(DebateFormatStrategy):
@@ -12,16 +11,8 @@ class TraditionalDebateFormat(DebateFormatStrategy):
         return ["1st Aff", "1st Neg", "2nd Aff", "2nd Neg", "3rd Aff", "3rd Neg"]
 
     @property
-    def num_roles(self) -> int:
-        return 6
-
-    @property
     def min_participants(self) -> int:
         return 6
-
-    @property
-    def last_role_index(self) -> int:
-        return 5
 
     def build_graph(self, person_data: List[Dict]) -> Graph:
         """Build the flow network graph for traditional 6-role debate format."""
@@ -35,7 +26,7 @@ class TraditionalDebateFormat(DebateFormatStrategy):
         # Add edges from source (0) to each person (1 to P)
         for i in range(1, 1 + P):
             G.addEdge(0, i, 1, 0)
-            costs = person_data[i-1]["preferences"]
+            costs = person_data[i - 1]["preferences"]
 
             # Add edges from person to each role
             for j in range(1 + P, N - 1):
@@ -51,31 +42,14 @@ class TraditionalDebateFormat(DebateFormatStrategy):
             pass
         elif mod < 4:
             # Add extra people to 3rd Neg (last role)
-            G.addEdge(N-2, N-1, role_cap + mod, 0)
+            G.addEdge(N - 2, N - 1, role_cap + mod, 0)
         else:
             # Distribute extras across multiple roles
-            G.addEdge(N-7, N-1, role_cap + 1, 0)
-            G.addEdge(N-6, N-1, role_cap + 1, 0)
-            G.addEdge(N-5, N-1, role_cap + 1, 0)
-            G.addEdge(N-4, N-1, role_cap + 1, 0)
+            G.addEdge(N - 7, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 6, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 5, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 4, N - 1, role_cap + 1, 0)
             if mod == 5:
-                G.addEdge(N-3, N-1, role_cap + 1, 0)
+                G.addEdge(N - 3, N - 1, role_cap + 1, 0)
 
         return G
-
-    def extract_assignments_from_graph(
-        self,
-        result_graph: Graph,
-        num_participants: int
-    ) -> Dict[int, List[int]]:
-        """Extract assignments using ADT method."""
-        assignments = {0: [], 1: [], 2: [], 3: [], 4: [], 5: []}
-        N = num_participants + 6 + 2
-
-        for i in range(1 + num_participants, N - 1):
-            destinations = result_graph.getOutgoingEdgesWithFlow(i)
-            links = [j - 1 for j in destinations]
-            random.shuffle(links)
-            assignments[i - num_participants - 1] = links
-
-        return assignments

@@ -1,7 +1,6 @@
 from typing import Dict, List
 from graph import Graph
 from debate_strategy import DebateFormatStrategy
-import random
 
 
 class BritishParliamentaryFormat(DebateFormatStrategy):
@@ -12,16 +11,8 @@ class BritishParliamentaryFormat(DebateFormatStrategy):
         return ["PM", "LO", "DPM", "DLO", "GM", "MO", "GW", "OW"]
 
     @property
-    def num_roles(self) -> int:
-        return 8
-
-    @property
     def min_participants(self) -> int:
         return 8
-
-    @property
-    def last_role_index(self) -> int:
-        return 7
 
     def build_graph(self, person_data: List[Dict]) -> Graph:
         """Build the flow network graph for British Parliamentary 8-role debate format."""
@@ -35,7 +26,7 @@ class BritishParliamentaryFormat(DebateFormatStrategy):
         # Add edges from source (0) to each person (1 to P)
         for i in range(1, 1 + P):
             G.addEdge(0, i, 1, 0)
-            costs = person_data[i-1]["preferences"]
+            costs = person_data[i - 1]["preferences"]
 
             # Add edges from person to each role
             for j in range(1 + P, N - 1):
@@ -51,39 +42,19 @@ class BritishParliamentaryFormat(DebateFormatStrategy):
             pass
         elif mod < 4:
             # Add extra people to last role (OW)
-            G.addEdge(N-2, N-1, role_cap + mod, 0)
+            G.addEdge(N - 2, N - 1, role_cap + mod, 0)
         else:
             # Distribute extras across first 4 roles
-            G.addEdge(N-9, N-1, role_cap + 1, 0)
-            G.addEdge(N-8, N-1, role_cap + 1, 0)
-            G.addEdge(N-7, N-1, role_cap + 1, 0)
-            G.addEdge(N-6, N-1, role_cap + 1, 0)
+            G.addEdge(N - 9, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 8, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 7, N - 1, role_cap + 1, 0)
+            G.addEdge(N - 6, N - 1, role_cap + 1, 0)
 
             if mod >= 5:
-                G.addEdge(N-5, N-1, role_cap + 1, 0)
+                G.addEdge(N - 5, N - 1, role_cap + 1, 0)
                 if mod >= 6:
-                    G.addEdge(N-4, N-1, role_cap + 1, 0)
+                    G.addEdge(N - 4, N - 1, role_cap + 1, 0)
                     if mod == 7:
-                        G.addEdge(N-3, N-1, role_cap + 1, 0)
+                        G.addEdge(N - 3, N - 1, role_cap + 1, 0)
 
         return G
-
-    def extract_assignments_from_graph(
-        self,
-        result_graph: Graph,
-        num_participants: int
-    ) -> Dict[int, List[int]]:
-        """Extract assignments using direct graph access."""
-        assignments = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-        N = num_participants + 8 + 2
-
-        for i in range(1 + num_participants, N - 1):
-            row = result_graph.graph[i]
-            links = []
-            for j, tup in enumerate(row):
-                if tup[0] != 0:
-                    links.append(j - 1)
-            random.shuffle(links)
-            assignments[i - num_participants - 1] = links
-
-        return assignments

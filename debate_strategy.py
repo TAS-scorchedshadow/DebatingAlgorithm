@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Tuple
 from graph import Graph
+import random
 
 
 class DebateFormatStrategy(ABC):
@@ -14,21 +15,20 @@ class DebateFormatStrategy(ABC):
 
     @property
     @abstractmethod
-    def num_roles(self) -> int:
-        """Return the number of roles in this format."""
-        pass
-
-    @property
-    @abstractmethod
     def min_participants(self) -> int:
         """Return minimum number of participants needed."""
         pass
 
     @property
-    @abstractmethod
     def last_role_index(self) -> int:
-        """Return the index of the last role (for doubleups)."""
-        pass
+        """
+        Return the index of the last role (for doubleups).
+
+        By default this is set to min_participants - 1, to avoid creating an extra room with 1 person
+
+
+        """
+        return self.min_participants - 1
 
     @abstractmethod
     def build_graph(self, person_data: List[Dict]) -> Graph:
@@ -43,11 +43,8 @@ class DebateFormatStrategy(ABC):
         """
         pass
 
-    @abstractmethod
     def extract_assignments_from_graph(
-        self,
-        result_graph: Graph,
-        num_participants: int
+        self, result_graph: Graph, num_participants: int
     ) -> Dict[int, List[int]]:
         """
         Extract role assignments from the flow graph.
@@ -59,12 +56,20 @@ class DebateFormatStrategy(ABC):
         Returns:
             Dictionary mapping role indices to lists of person indices
         """
-        pass
+        # Initialize assignments for all roles
+        assignments = {i: [] for i in range(self.min_participants)}
+        N = num_participants + self.min_participants + 2
+
+        for i in range(1 + num_participants, N - 1):
+            destinations = result_graph.getOutgoingEdgesWithFlow(i)
+            links = [j - 1 for j in destinations]
+            random.shuffle(links)
+            assignments[i - num_participants - 1] = links
+
+        return assignments
 
     def generate_rooms(
-        self,
-        assignments: Dict[int, List[int]],
-        person_data: List[Dict]
+        self, assignments: Dict[int, List[int]], person_data: List[Dict]
     ) -> List[List[Tuple[str, str, int]]]:
         """
         Generate room allocations from assignments.
@@ -89,11 +94,13 @@ class DebateFormatStrategy(ABC):
                     should_break = True
                     break
                 person_idx = person_list.pop(0)
-                room.append((
-                    person_data[person_idx]["name"],
-                    self.role_map[role],
-                    person_data[person_idx]["preferences"][role]
-                ))
+                room.append(
+                    (
+                        person_data[person_idx]["name"],
+                        self.role_map[role],
+                        person_data[person_idx]["preferences"][role],
+                    )
+                )
 
             if should_break:
                 break
@@ -103,11 +110,13 @@ class DebateFormatStrategy(ABC):
         last_role_idx = self.last_role_index
         while len(assignments[last_role_idx]) > 0:
             person_idx = assignments[last_role_idx].pop(0)
-            rooms[i].append((
-                person_data[person_idx]["name"],
-                self.role_map[last_role_idx],
-                person_data[person_idx]["preferences"][last_role_idx]
-            ))
+            rooms[i].append(
+                (
+                    person_data[person_idx]["name"],
+                    self.role_map[last_role_idx],
+                    person_data[person_idx]["preferences"][last_role_idx],
+                )
+            )
             i = (i + 1) % n_rooms
 
         return rooms
