@@ -1,9 +1,9 @@
 import argparse
-from debate_runner import DebateRunner
-from debate_formats.traditional import TraditionalDebateFormat
-from debate_formats.british_parliamentary import BritishParliamentaryFormat
-from debate_formats.neo import NewTraditional
-from debate_io import DebateIO
+from hardstucks_debating.debate_runner import DebateRunner
+from hardstucks_debating.formats.traditional import TraditionalDebateFormat
+from hardstucks_debating.formats.british_parliamentary import BritishParliamentaryFormat
+from hardstucks_debating.formats.neo import NewTraditional
+from hardstucks_debating.debate_io import DebateIO
 
 
 def main():

@@ -1,0 +1,2 @@
+# Core dependencies
+inquirer>=3.0.0

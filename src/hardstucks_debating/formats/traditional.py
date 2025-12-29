@@ -1,6 +1,6 @@
 from typing import Dict, List
-from debate_strategy_impl import DebateFormatStrategyImpl
-from graph import Graph
+from hardstucks_debating.debate_strategy_impl import DebateFormatStrategyImpl
+from hardstucks_debating.graph import Graph
 
 
 class TraditionalDebateFormat(DebateFormatStrategyImpl):

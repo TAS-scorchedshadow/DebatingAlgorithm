@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Tuple
-from debate_strategy import DebateFormatStrategy
-from graph import Graph
+from hardstucks_debating.debate_strategy import DebateFormatStrategy
+from hardstucks_debating.graph import Graph
 import random
 
 

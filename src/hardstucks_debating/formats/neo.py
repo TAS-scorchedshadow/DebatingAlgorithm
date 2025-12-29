@@ -1,6 +1,6 @@
 from typing import Dict, List, Set
-from debate_strategy import DebateFormatStrategy
-from graph import Graph
+from hardstucks_debating.debate_strategy import DebateFormatStrategy
+from hardstucks_debating.graph import Graph
 
 
 class NewTraditional(DebateFormatStrategy):

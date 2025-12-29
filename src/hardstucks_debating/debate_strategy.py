@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Tuple
-from graph import Graph
+from hardstucks_debating.graph import Graph
 import random
 
 

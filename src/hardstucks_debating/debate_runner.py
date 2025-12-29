@@ -1,6 +1,6 @@
-from graph import Graph
-from debate_strategy import DebateFormatStrategy
-from debate_io import DebateIO
+from hardstucks_debating.graph import Graph
+from hardstucks_debating.debate_strategy import DebateFormatStrategy
+from hardstucks_debating.debate_io import DebateIO
 
 
 class DebateRunner:
