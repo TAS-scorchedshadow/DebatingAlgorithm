@@ -1,0 +1,14 @@
+Name,1st Aff,1st Neg,2nd Aff,2nd Neg,3rd Aff,3rd Neg,Group
+A,1,2,3,4,5,6,"Morning,Afternoon"
+B,1,2,3,4,5,6,"Morning,Evening"
+C,1,2,3,4,5,6,Morning
+D,1,2,3,4,5,6,Morning
+E,1,2,3,4,5,6,Afternoon
+F,1,2,3,4,5,6,Afternoon
+G,1,2,3,4,5,6,Afternoon
+H,1,2,3,4,5,6,Afternoon
+I,1,2,3,4,5,6,Evening
+J,1,2,3,4,5,6,
+K,1,2,3,4,5,6,
+L,1,2,3,4,5,6,
+M,1,2,3,4,5,6,

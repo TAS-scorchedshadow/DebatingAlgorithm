@@ -32,15 +32,43 @@ class Graph:
 
     def printGraph(self) -> None:
         """
-        Print the adjacency matrix representation of the graph.
+        Print the graph node by node with incoming and outgoing edges.
 
-        Displays each cell as (capacity, cost) tuple.
+        Shows each node's incoming and outgoing edges with (capacity, cost) information.
         """
-        print("\nAdjacency Matrix:")
-        for i in range(self.V):
-            for j in range(self.V):
-                print(self.graph[i][j], end=" ")
-            print()
+        print("\n=== Graph Structure (Node by Node) ===")
+        for node in range(self.V):
+            print(f"\nNode {node}:")
+
+            # Outgoing edges
+            outgoing = []
+            for dest in range(self.V):
+                capacity, cost = self.graph[node][dest]
+                if capacity > 0:
+                    outgoing.append(f"  -> {dest} (cap={capacity}, cost={cost})")
+
+            if outgoing:
+                print("  Outgoing edges:")
+                for edge in outgoing:
+                    print(edge)
+            else:
+                print("  Outgoing edges: None")
+
+            # Incoming edges
+            incoming = []
+            for src in range(self.V):
+                capacity, cost = self.graph[src][node]
+                if capacity > 0:
+                    incoming.append(f"  <- {src} (cap={capacity}, cost={cost})")
+
+            if incoming:
+                print("  Incoming edges:")
+                for edge in incoming:
+                    print(edge)
+            else:
+                print("  Incoming edges: None")
+
+        print("\n" + "="*40 + "\n")
 
     def addEdge(self, v: int, w: int, capacity: int, cost: int) -> None:
         """

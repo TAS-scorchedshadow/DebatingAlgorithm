@@ -1,0 +1,14 @@
+Name,1st Aff,1st Neg,2nd Aff,2nd Neg,3rd Aff,3rd Neg,Group
+A,1,2,3,4,5,6,"TeamAlpha,Hello"
+B,5,4,3,2,1,6,TeamAlpha
+C,6,5,4,3,2,1,
+D,1,2,3,4,5,6,TeamBeta
+E,5,4,3,2,1,6,TeamBeta
+F,6,5,4,3,2,1,TeamBeta
+G,6,5,4,3,2,1,
+H,6,5,4,3,2,1,
+I,1,2,3,4,5,6,
+J,6,5,4,3,2,1,
+K,1,2,3,4,5,6,TeamAlpha
+L,6,5,4,3,2,1,
+M,6,5,4,3,2,1,

@@ -13,7 +13,8 @@ class DebateRunner:
 
     def display_banner(self) -> None:
         """Display application banner."""
-        print(r"""
+        print(
+            r"""
 
         _   _               _     _              _     ______     _           _   _
         | | | |             | |   | |            | |    |  _  \   | |         | | (_)
@@ -23,11 +24,15 @@ class DebateRunner:
         \_| |_/\__,_|_|  \__,_|___/\__|\__,_|\___|_|\_\ |___/ \___|_.__/ \__,_|\__|_|_| |_|\__, |
                                                                                             __/ |
                                                                                            |___/
-    """)
+    """
+        )
 
-    def display_success(self, output_file: str, total_pref: int, num_participants: int) -> None:
+    def display_success(
+        self, output_file: str, total_pref: int, num_participants: int
+    ) -> None:
         """Display success message."""
-        print(r"""
+        print(
+            r"""
 
             _____                                 _
             / ____|                              | |
@@ -37,14 +42,16 @@ class DebateRunner:
             |_____/ \__,_|\___\___\___||___/___/ (_)
 
 
-    """)
+    """
+        )
         print(f"Output wrote to {output_file}")
         avg_pref = round(total_pref / num_participants, 3)
-        print(f"On average people got their {total_pref}/{num_participants} = {avg_pref} choice")
+        print(
+            f"On average people got their {total_pref}/{num_participants} = {avg_pref} choice"
+        )
 
     def run(self) -> None:
         """Main execution flow."""
-        self.display_banner()
 
         # Step 1: Read input
         input_file = self.io.get_input_file()
@@ -59,12 +66,14 @@ class DebateRunner:
 
         # Step 2: Validate minimum participants
         P = len(person_data)
-        if P < self.strategy.min_participants:
-            print("Trivial Solution")
-            exit(0)
+        # if P < self.strategy.min_participants:
+        #     print("Trivial Solution")
+        #     exit(0)
 
         # Step 3: Get output file
         output_file = self.io.get_output_file()
+
+        self.display_banner()
 
         # Step 4: Build flow graph using strategy
         G = self.strategy.build_graph(person_data)
@@ -72,11 +81,8 @@ class DebateRunner:
         # Step 5: Run cycle-canceling algorithm
         resG = G.cycleCancel(0, len(G.graph) - 1)
 
-        # Step 6: Extract assignments using strategy
-        assignments = self.strategy.extract_assignments_from_graph(resG, P)
-
-        # Step 7: Generate rooms
-        rooms = self.strategy.generate_rooms(assignments, person_data)
+        # Step 6: Generate rooms from graph
+        rooms = self.strategy.generate_rooms(resG, P, person_data)
 
         # Step 8: Write output
         try:

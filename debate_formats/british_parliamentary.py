@@ -1,9 +1,10 @@
 from typing import Dict, List
+from debate_strategy_impl import DebateFormatStrategyImpl
 from graph import Graph
 from debate_strategy import DebateFormatStrategy
 
 
-class BritishParliamentaryFormat(DebateFormatStrategy):
+class BritishParliamentaryFormat(DebateFormatStrategyImpl):
     """8-role British Parliamentary debate format strategy."""
 
     @property
