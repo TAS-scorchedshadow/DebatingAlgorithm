@@ -4,6 +4,7 @@ from hardstucks_debating.debate_io import Room
 from hardstucks_debating.graph import Graph
 
 
+# This is the original file that group_aware_impl is based off not used in the codebase
 class NewTraditional(DebateFormatStrategy):
     """6-role traditional debate format strategy with group support."""
 
