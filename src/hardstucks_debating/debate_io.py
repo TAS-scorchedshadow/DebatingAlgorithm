@@ -6,6 +6,7 @@ import inquirer
 
 class Room(NamedTuple):
     """Represents a debate room with name and participant assignments."""
+
     name: str
     assignments: List[Tuple[str, str, int, str]]  # (name, role, preference, group)
 
@@ -194,10 +195,10 @@ class DebateIO:
         Prompt user to select debate format using arrow keys.
 
         Args:
-            default: Optional default format ('traditional', 'british_parliamentary', or 'neo')
+            default: Optional default format
 
         Returns:
-            Selected format name: 'traditional', 'british_parliamentary', or 'neo'
+            Selected format name
         """
         if default:
             return default
@@ -209,7 +210,14 @@ class DebateIO:
                 choices=[
                     ("Traditional (6 roles)", "traditional"),
                     ("British Parliamentary (8 roles)", "british_parliamentary"),
-                    ("Neo (6 roles with room nodes)", "neo"),
+                    (
+                        "LEGACY: Traditional without groups (6 roles, ignore groups)",
+                        "traditional_ignore_group",
+                    ),
+                    (
+                        "LEGACY: British Parliamentary without groups (8 roles, ignore groups)",
+                        "bp_ignore_group",
+                    ),
                 ],
             ),
         ]

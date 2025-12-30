@@ -2,7 +2,10 @@ import argparse
 from hardstucks_debating.debate_runner import DebateRunner
 from hardstucks_debating.formats.traditional import TraditionalDebateFormat
 from hardstucks_debating.formats.british_parliamentary import BritishParliamentaryFormat
-from hardstucks_debating.formats.neo import NewTraditional
+from hardstucks_debating.formats.traditional_ga import TraditionalGroupAware
+from hardstucks_debating.formats.british_parliamentary_ga import (
+    BritishParliamentaryGroupAware,
+)
 from hardstucks_debating.debate_io import DebateIO
 
 
@@ -28,8 +31,14 @@ Examples:
         "-f",
         "--format",
         type=str,
-        choices=["traditional", "bp", "british_parliamentary", "neo"],
-        help="Debate format (traditional, bp/british_parliamentary, or neo)",
+        choices=[
+            "traditional",
+            "bp",
+            "british_parliamentary",
+            "traditional_ignore_group",
+            "bp_ignore_group",
+        ],
+        help="Debate format (traditional, bp/british_parliamentary, traditional_ignore_group, bp_ignore_group",
     )
 
     args = parser.parse_args()
@@ -48,11 +57,13 @@ Examples:
 
     # Create appropriate strategy based on selection
     if format_choice == "traditional":
-        strategy = TraditionalDebateFormat()
+        strategy = TraditionalGroupAware()
     elif format_choice in ["british_parliamentary", "bp"]:
+        strategy = BritishParliamentaryGroupAware()
+    elif format_choice == "traditional_ignore_group":
+        strategy = TraditionalDebateFormat()
+    elif format_choice == "bp_ignore_group":
         strategy = BritishParliamentaryFormat()
-    elif format_choice == "neo":
-        strategy = NewTraditional()
     else:
         print(f"Unknown format: {format_choice}")
         exit(1)
