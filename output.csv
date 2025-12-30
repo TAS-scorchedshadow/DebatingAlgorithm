@@ -1,0 +1,16 @@
+Name,Role,"Role preferenced at number, Group"
+Room 1 (TeamAlpha)
+A,1st Aff,1,"TeamAlpha,Hello"
+K,1st Neg,2,TeamAlpha
+L,2nd Aff,4,
+B,2nd Neg,2,TeamAlpha
+H,3rd Aff,2,
+G,3rd Neg,1,
+J,3rd Neg,1,
+Room 2 (TeamBeta)
+D,1st Aff,1,TeamBeta
+I,1st Neg,2,
+F,2nd Aff,4,TeamBeta
+E,2nd Neg,2,TeamBeta
+M,3rd Aff,2,
+C,3rd Neg,1,
