@@ -1,0 +1,16 @@
+Name,Role,Role preferenced at number
+Room 1
+A,1st Aff,1
+K,1st Neg,2
+F,2nd Aff,4
+G,2nd Neg,3
+J,3rd Aff,2
+L,3rd Neg,1
+M,3rd Neg,1
+Room 2
+I,1st Aff,1
+D,1st Neg,2
+E,2nd Aff,3
+H,2nd Neg,3
+B,3rd Aff,1
+C,3rd Neg,1

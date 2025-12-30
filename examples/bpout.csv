@@ -1,0 +1,20 @@
+Name,Role,Role preferenced at number
+Room 1
+K,PM,1
+O,LO,1
+I,DPM,3
+H,DLO,5
+F,GM,4
+B,MO,2
+Q,GW,1
+C,OW,1
+E,OW,1
+Room 2
+A,PM,1
+D,LO,2
+P,DPM,3
+N,DLO,2
+J,GM,4
+L,MO,3
+M,GW,2
+G,OW,1
