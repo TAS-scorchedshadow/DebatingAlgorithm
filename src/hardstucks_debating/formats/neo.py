@@ -1,5 +1,6 @@
 from typing import Dict, List, Set
 from hardstucks_debating.debate_strategy import DebateFormatStrategy
+from hardstucks_debating.debate_io import Room
 from hardstucks_debating.graph import Graph
 
 
@@ -270,10 +271,13 @@ class NewTraditional(DebateFormatStrategy):
                         (person["name"], role_map[role], preference, group_str)
                     )
 
-        # Filter out empty rooms
+        # Filter out empty rooms and create Room objects
         rooms_with_data = []
-        for room in rooms:
+        for room_idx, room in enumerate(rooms):
             if len(room) > 0:  # Only include non-empty rooms
-                rooms_with_data.append(room)
+                # Create room name with timeslot
+                timeslot = room_allocations[room_idx][0]
+                room_name = f"Room {len(rooms_with_data) + 1} ({timeslot})"
+                rooms_with_data.append(Room(name=room_name, assignments=room))
 
         return rooms_with_data

@@ -1,7 +1,13 @@
 import csv
 import os
-from typing import Iterable, List, Dict, Tuple, Optional
+from typing import Iterable, List, Dict, Tuple, Optional, NamedTuple
 import inquirer
+
+
+class Room(NamedTuple):
+    """Represents a debate room with name and participant assignments."""
+    name: str
+    assignments: List[Tuple[str, str, int, str]]  # (name, role, preference, group)
 
 
 class DebateIO:
@@ -72,15 +78,13 @@ class DebateIO:
         return data
 
     @staticmethod
-    def write_room_assignments(
-        file_path: str, rooms: List[List[Tuple[str, str, int, str | None]]]
-    ) -> int:
+    def write_room_assignments(file_path: str, rooms: List[Room]) -> int:
         """
         Write room assignments to CSV file.
 
         Args:
             file_path: Path to output CSV file
-            rooms: List of rooms, each containing (name, role, preference) tuples
+            rooms: List of Room objects with name and assignments
 
         Returns:
             Total preference score across all assignments
@@ -95,9 +99,9 @@ class DebateIO:
                 writer = csv.writer(file)
                 writer.writerow(["Name", "Role", "Role preferenced at number, Group"])
 
-                for i, room in enumerate(rooms):
-                    writer.writerow([f"Room {i + 1}"])
-                    for row in room:
+                for room in rooms:
+                    writer.writerow([room.name])
+                    for row in room.assignments:
                         writer.writerow(row)
                         total_pref += row[2]
         except IOError as e:
