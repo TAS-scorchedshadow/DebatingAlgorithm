@@ -53,21 +53,45 @@ class DebateIO:
 
                         if has_group_column:
                             # Last column is group, middle columns are preferences
-                            preferences = [int(x) for x in row[1:-1]]
+                            pref_strings = row[1:-1]
                             group = row[-1]
-                            person = {
-                                "name": name,
-                                "preferences": preferences,
-                                "group": [] if len(group) == 0 else group.split(","),
-                            }
                         else:
                             # All columns after name are preferences
-                            preferences = [int(x) for x in row[1:]]
-                            person = {
-                                "name": name,
-                                "preferences": preferences,
-                                "group": [],
-                            }
+                            pref_strings = row[1:]
+                            group = ""
+
+                        # Convert preferences, handling missing/empty values
+                        preferences = []
+                        for pref_str in pref_strings:
+                            pref_str = pref_str.strip()
+                            if pref_str == "":
+                                # Missing preference - will fill in later
+                                preferences.append(None)
+                            else:
+                                try:
+                                    preferences.append(int(pref_str))
+                                except ValueError:
+                                    raise ValueError(
+                                        f"Invalid preference value '{pref_str}' for participant '{name}'"
+                                    )
+
+                        # Fill in missing preferences with max + 1
+                        valid_prefs = [p for p in preferences if p is not None]
+                        if valid_prefs:
+                            fill_value = max(valid_prefs) + 1
+                        else:
+                            # All preferences are missing, use a default
+                            fill_value = 1
+
+                        preferences = [
+                            p if p is not None else fill_value for p in preferences
+                        ]
+
+                        person = {
+                            "name": name,
+                            "preferences": preferences,
+                            "group": [] if len(group) == 0 else group.split(","),
+                        }
 
                         data.append(person)
                     line_count += 1
